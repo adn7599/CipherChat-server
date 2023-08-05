@@ -12,6 +12,8 @@ type Config struct {
 
 	TOKEN_HOUR_LIFESPAN int
 	API_SECRET string
+
+	BUFFER_DELETE_WAIT int //in secs
 }
 
 var Conf Config
@@ -30,4 +32,6 @@ func (conf *Config) SetConfig(){
 
 	conf.TOKEN_HOUR_LIFESPAN = 24
 	conf.API_SECRET = "mysecret"
+
+	conf.BUFFER_DELETE_WAIT = 2 * 60 //secs
 }
