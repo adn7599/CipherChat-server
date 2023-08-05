@@ -8,4 +8,5 @@ func InitDB() {
 }
 func autoMigrate(){
 	db.Db.AutoMigrate(&User{})
+	db.Db.AutoMigrate(&BufferedMessage{})
 }

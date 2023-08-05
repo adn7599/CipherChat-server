@@ -43,7 +43,7 @@ func validateUser(c *gin.Context) (string,string){
 		if _, ok := tok.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", tok.Header["alg"])
 		}
-		return config.Conf.API_SECRET, nil
+		return []byte(config.Conf.API_SECRET), nil
 	})
 
 	if err != nil {
@@ -62,7 +62,7 @@ func validateUser(c *gin.Context) (string,string){
 
 func JwtAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		err,userID := validateUser(c)
+		userID,err:= validateUser(c)
 		if err != "" {
 			c.JSON(http.StatusUnauthorized, gin.H {
 				"error" : err,
