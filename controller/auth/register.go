@@ -43,7 +43,7 @@ func registerHandler(c *gin.Context) {
 		log.Printf("Error: %v",err)
 		var errMsg string = err.Error()
 		if strings.Contains(err.Error(),"1062"){
-			errMsg = "Mobile number already registered!!"
+			errMsg = "Username already registered!!"
 		}
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": errMsg,
