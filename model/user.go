@@ -10,7 +10,6 @@ import (
 type User struct {
 	gorm.Model
 	ID string `json:"id" binding:"required"`
-	Name string `json:"name" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	PublicKey string `json:"public_key" binding:"required"`
 	PrivateKey string `json:"private_key" binding:"required"`

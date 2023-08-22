@@ -80,7 +80,6 @@ func updateDetailsHandler(c *gin.Context){
 		return
 	}	
 
-		user.Name = data.Name;
 
 		if result := db.Db.Save(&user); result.Error != nil {
 
