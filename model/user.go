@@ -15,6 +15,12 @@ type User struct {
 	PrivateKey string `json:"private_key" binding:"required"`
 }
 
+//Request Models
+type UserLogin struct {
+	ID string `json:"id" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 //Response models
 type ChangePassword struct {
 	Old_password string `json:"old_password" binding:"required"`

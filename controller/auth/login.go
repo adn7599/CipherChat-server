@@ -10,7 +10,7 @@ import (
 )
 
 func loginHandler(c *gin.Context){
-	var user model.User
+	var user model.UserLogin
 	var storedUser model.User
 	
 	if bindError := c.BindJSON(&user); bindError != nil {
@@ -20,7 +20,7 @@ func loginHandler(c *gin.Context){
 		return 
 	}
 
-	result := db.Db.First(&storedUser,user.ID)
+	result := db.Db.First(&storedUser,"id = ?",user.ID)
 
 	if result.Error != nil {
 		log.Printf("Error while logging in: %v",storedUser)
@@ -45,6 +45,8 @@ func loginHandler(c *gin.Context){
 		c.JSON(http.StatusOK,gin.H{
 			"msg":"User logged in!!",
 			"token": token,
+			"public_key": storedUser.PublicKey,
+			"private_key": storedUser.PrivateKey,
 		})
 		return 
 	}
