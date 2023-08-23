@@ -1,6 +1,7 @@
 package user
 
 import (
+	"advait/chatServer/controller/auth"
 	"advait/chatServer/model"
 	db "advait/chatServer/model/database"
 	"net/http"
@@ -9,7 +10,9 @@ import (
 )
 
 func ApplyRouter(route *gin.RouterGroup){
-	route.GET("/search",searchUserHandler);
+
+	protectedRoute := route.Use(auth.JwtAuthMiddleware())
+	protectedRoute.GET("/search",searchUserHandler);
 }
 
 func searchUserHandler(c *gin.Context){
