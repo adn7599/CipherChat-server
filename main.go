@@ -4,6 +4,7 @@ import (
 	"advait/chatServer/config"
 	"advait/chatServer/controller/auth"
 	"advait/chatServer/controller/message"
+	"advait/chatServer/controller/user"
 	"advait/chatServer/model"
 	"net/http"
 
@@ -27,8 +28,11 @@ func main() {
 	authRouter := router.Group("/auth")
 	auth.ApplyRouter(authRouter)
 
-	msgRouter := router.Group("message")
+	msgRouter := router.Group("/message")
 	message.ApplyRouter(msgRouter);
+
+	userRouter := router.Group("/user")
+	user.ApplyRouter(userRouter)
 
 	router.Run(":8080")
 

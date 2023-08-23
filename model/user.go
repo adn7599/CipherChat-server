@@ -22,6 +22,12 @@ type UserLogin struct {
 }
 
 //Response models
+
+type UserSearchResp struct {
+	ID string `json:"id" binding:"required"`
+	PublicKey string `json:"public_key" binding:"required"`
+}
+
 type ChangePassword struct {
 	Old_password string `json:"old_password" binding:"required"`
 	New_password string `json:"new_password" binding:"required"`
