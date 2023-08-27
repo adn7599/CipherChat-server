@@ -35,6 +35,4 @@ func main() {
 	user.ApplyRouter(userRouter)
 
 	router.Run(":8080")
-
-
 }

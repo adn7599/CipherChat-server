@@ -24,3 +24,8 @@ type ReceivedMessage struct {
 	Send_time string `json:"send_time" binding:"required"`
 	Message string `json:"message" binding:"required"` 
 }
+
+type SentMessageResp struct {
+	StatusType string `json:"status_type"`
+	StatusMsg string `json:"status"`
+}

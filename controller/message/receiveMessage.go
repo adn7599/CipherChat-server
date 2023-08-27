@@ -1,21 +1,18 @@
 package message
 
 import (
-	"advait/chatServer/config"
 	"advait/chatServer/model"
 	"advait/chatServer/model/database"
-	"log"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 func deleteMessage(receiver string,messages []model.BufferedMessage){
 	go func(){
-		log.Printf("Started timer for deletion of messages for receiver  %s",receiver)
-		time.Sleep(time.Duration(config.Conf.BUFFER_DELETE_WAIT) * time.Second)	
-		log.Printf("Deleting messages received by %s",receiver)	
+		// log.Printf("Started timer for deletion of messages for receiver  %s",receiver)
+		// time.Sleep(time.Duration(config.Conf.BUFFER_DELETE_WAIT) * time.Second)	
+		// log.Printf("Deleting messages received by %s",receiver)	
 		database.Db.Unscoped().Delete(&messages)
 	}()
 }
