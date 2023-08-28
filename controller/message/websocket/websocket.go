@@ -52,7 +52,7 @@ func WebsocketConnectionHandler(c *gin.Context){
 	res := db.Db.Where("receiver = ?",userID).Find(&buffered)
 
 	if res.Error != nil {
-		resp := model.SentMessageResp{StatusType: "error", StatusMsg: "Could not retrieve buffered messages"}
+		resp := model.NewSentMessageResp("error","Could not retrieve buffered messages")
 		ws.WriteJSON(resp)
 		return
 	}
@@ -60,11 +60,11 @@ func WebsocketConnectionHandler(c *gin.Context){
 	var messages []model.ReceivedMessage = make([]model.ReceivedMessage,0)
 
 	for _,buff := range buffered {
-		messages = append(messages, model.ReceivedMessage{
-			Sender: buff.Sender,
-			Send_time: buff.Send_time,
-			Message: buff.Message,
-		})
+		messages = append(messages, model.NewReceiveMessage(
+			buff.Sender,
+			buff.Send_time,
+			buff.Message,
+		))
 	}
 
 	err = ws.WriteJSON(messages)
@@ -72,8 +72,10 @@ func WebsocketConnectionHandler(c *gin.Context){
 		fmt.Println(err)
 		return
 	}
-	
-	db.Db.Unscoped().Delete(&buffered)
+
+	if(len(buffered) > 0){
+		db.Db.Unscoped().Delete(&buffered)
+	}
 
 	for {
 		//Read Message from client
@@ -91,12 +93,12 @@ func WebsocketConnectionHandler(c *gin.Context){
 
 		if ok {
 			//receiver online
-			var msgRec model.ReceivedMessage = model.ReceivedMessage{Sender: userID,Send_time: msg.Send_time,Message: msg.Message}
+			var msgRec model.ReceivedMessage = model.NewReceiveMessage(userID,msg.Send_time,msg.Message)
 			err := receiver.WriteJSON(msgRec)
 			if err != nil {
-				resp = model.SentMessageResp{StatusType: "error", StatusMsg: err.Error()}
+				resp = model.NewSentMessageResp("error",err.Error())
 			}else{
-				resp = model.SentMessageResp{StatusType: "success", StatusMsg: "message sent"}
+				resp = model.NewSentMessageResp("success","message sent")
 			}
 		}else {
 			//receiver offline
@@ -111,9 +113,9 @@ func WebsocketConnectionHandler(c *gin.Context){
 			err := db.Db.Create(&bufferedMsg).Error
 
 			if err != nil {
-				resp = model.SentMessageResp{StatusType: "error", StatusMsg: err.Error()}
+				resp = model.NewSentMessageResp("error",err.Error())
 			}else {
-				resp = model.SentMessageResp{StatusType: "success", StatusMsg: "message buffered"}
+				resp = model.NewSentMessageResp("success","message buffered")
 			}
 		}
 
