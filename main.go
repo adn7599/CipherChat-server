@@ -11,9 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func hello(c *gin.Context) {
+func ping(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Hello world",
+		"message": "server up and running",
 	})
 }
 
@@ -23,7 +23,7 @@ func main() {
 	model.InitDB();
 
 	router := gin.Default()
-	router.GET("/hello",hello)
+	router.GET("/ping",ping)
 
 	authRouter := router.Group("/auth")
 	auth.ApplyRouter(authRouter)
