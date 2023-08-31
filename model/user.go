@@ -33,9 +33,12 @@ type ChangePassword struct {
 	New_password string `json:"new_password" binding:"required"`
 }
 
-type UpdateUser struct {
-	Name string `json:"name" binding:"required"`
+type ChangeMasterKey struct {
+	New_encrypted_private_key string `json:"new_encrypted_private_key" binding:"required"`
 }
+// type UpdateUser struct {
+// 	Name string `json:"name" binding:"required"`
+// }
 
 func CreateUser(user *User) error{
 	err := db.Db.Create(user).Error

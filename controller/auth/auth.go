@@ -9,6 +9,7 @@ func ApplyRouter(route *gin.RouterGroup){
 	route.POST("/login",loginHandler)
 	protectedRoute := route.Use(JwtAuthMiddleware())
 	protectedRoute.POST("/changePassword",changePasswordHandler)
-	protectedRoute.POST("/updateDetails",updateDetailsHandler)
-	protectedRoute.DELETE("/deleteUser",deleteUserHandler)
+	protectedRoute.POST("/changeMasterKey",changeMasterKeyHandler)
+	// protectedRoute.POST("/updateDetails",updateDetailsHandler)
+	// protectedRoute.DELETE("/deleteUser",deleteUserHandler)
 }
